@@ -1,0 +1,164 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+    min-width: 300px;
+  }
+  
+  ol, ul {
+    padding-left: 30px;
+  }
+  
+  .row {
+      display: flex;
+      flex-direction: row;
+  }
+
+  /**** Word Boards ****/
+
+  .word:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  
+  .letter {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
+  }
+
+  .letter.correct {
+      background: rgb(162, 255, 162);
+  }
+
+  .letter.close {
+      background: rgb(255, 238, 162);
+  }
+  
+  .letter:focus {
+    outline: none;
+  }
+  
+  .kbd-navigation .letter:focus {
+    background: #ddd;
+  }
+  
+  .board {
+    /* display: flex;
+    flex-direction: column; */
+    margin: 20px;
+    z-index: 1;
+    position: relative;
+  }
+
+  .board .overlay {
+    height: 100%;
+    width: 100%;
+    background: rgba(110, 110, 110, 0.306);
+    z-index: 2;
+    display: none;
+    position: absolute;
+  }
+
+  .board.finished .overlay {
+    display: block;
+  }
+  
+  .boards {
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+
+  /**** Keyboard ****/
+  .keyboard {
+      align-self: center;
+      margin: 10px;
+  }
+
+  .key {
+      display: block;
+      height: 40px;
+      min-width: 40px;
+
+      position: relative;
+      margin: 1px;
+  }
+
+
+  .keycap {
+    background: rgba(255, 255, 255, 0.495);
+    border: 1px solid #999;
+    float: left;
+    font-size: 24px;
+    height: 40px;
+    padding: 5px 10px;
+    text-align: center;
+    min-width: 40px;
+  }
+
+  .keyboard .spacer {
+    height: 40px;
+    width: 20px;
+    margin: 1px;
+  }
+
+  .keycap:hover {
+    background: #ddd;
+  }
+
+  .keycap[data-status="unused"] {
+    background: #999;
+  }
+
+  .keycap[data-status="correct"] {
+    background: rgb(162, 255, 162);
+  }
+
+  .keycap[data-status="close"] {
+    background: rgb(255, 238, 162);
+  }
+
+  /* .keycap[data-size="1.5"] {
+      min-width: 60px;
+  } */
+
+  .indicators {
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    display: none;
+
+    /* display:  flex; */
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  /* .keyIndicator {
+      z-index: 1;
+  } */
+
+  .keyIndicator[data-size="4"]{
+      width: 20px;
+      height: 20px;
+  }
