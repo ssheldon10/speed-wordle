@@ -4,35 +4,25 @@ import {
     BrowserRouter as Router,
     Route,
     Routes,
-    useParams,
+    Navigate,
   } from "react-router-dom";
 
 import './index.css'
-// import App from './App'
-import Game from './Game'
+import App from './App'
 
-
-function App(props) {
-    const {num_games, seed} = useParams();
-    if (num_games == null)  {
-        return (
-            <Game num_games={4} rng_seed="null"/>
-        );
-    } else {
-        return (
-            <Game num_games={num_games} rng_seed={seed}/>
-        );
-    }
+function getRndInteger(min, max) {
+    const val = Math.floor(Math.random() * (max - min) ) + min;
+    return val;
 }
 
-const domContainer = document.getElementById('wordle');
-const root = ReactDOM.createRoot(domContainer);
-root.render(
+const gameContainer = document.getElementById('wordle');
+const gameRoot = ReactDOM.createRoot(gameContainer);
+gameRoot.render(
     <Router>
     <Routes>
         <Route 
         path="/"
-        element={<App />}
+        element={<Navigate replace to={`/4/${getRndInteger(1, 65536)}`}/>}
         />
         <Route
         path="/:num_games/:seed"
@@ -41,3 +31,4 @@ root.render(
     </Routes>
     </Router>
 );
+
