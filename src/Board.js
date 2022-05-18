@@ -17,9 +17,11 @@ class Board extends Component {
                 guess={guess} 
                 key={idx} 
                 listId={idx}
+                boardId={this.props.listId}
                 status={status}
                 checkFunc={this.props.checkFunc}
                 g_idx={this.props.g_idx}
+                keyMap={this.props.keyMap}
             />;
         
     }
@@ -40,8 +42,8 @@ class Board extends Component {
         return (
             <div className={this.getClass()}> 
                 <div className="overlay"/>
-                {this.props.correct}
                 {guesses} 
+                <div className="solution">{this.props.correct}</div>
             </div>
         );
     }

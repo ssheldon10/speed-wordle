@@ -7,7 +7,7 @@ class Letter extends Component {
     
     render() {
         return (
-            <div className={this.getClasses()}>
+            <div className={this.getClasses()} data-status={this.props.type}>
                 {this.props.value}
             </div>
         );
@@ -18,22 +18,6 @@ class Word extends Component {
 
     renderLetter(curr, correct, idx, class_val) {
         return <Letter type={class_val} value={curr} correct={correct} key={idx} />;
-    }
-
-    processLetters(guess, correct) {
-        var classes = Array(5).fill("default");
-        for (let i = 0; i < correct.length; i++) {
-            const guess_c = guess[i];
-            const curr_c = correct[i];
-            if (guess_c === curr_c) {
-                classes[i] = "correct";
-            } else if (correct.indexOf(guess_c) !== -1) {
-                classes[i] = "close";
-            } else {
-                classes[i] = "default";
-            }
-        }
-        return classes;
     }
 
     getClasses() {
@@ -47,7 +31,7 @@ class Word extends Component {
     render() {
         const correct = this.props.correct;
 
-        const classes = (this.props.status === "none") ? Array(5).fill("default") : (this.props.checkFunc(this.props.guess, this.props.correct));
+        const classes = (this.props.status === "none") ? Array(5).fill("default") : (this.props.checkFunc(this.props.guess, this.props.correct, this.props.boardId));
 
         const letters = [...correct].map((c, idx) => {
             const g = this.props.guess;
