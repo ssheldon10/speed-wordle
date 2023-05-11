@@ -10,23 +10,31 @@ import {
 import "./index.css";
 import App from "./App";
 
-function getRndInteger(min, max) {
-    const val = Math.floor(Math.random() * (max - min)) + min;
-    return val;
-}
-
 const gameContainer = document.getElementById("wordle");
 const gameRoot = ReactDOM.createRoot(gameContainer);
 gameRoot.render(
-    <Router>
-        <Routes>
-            <Route
-                path="/"
-                element={
-                    <Navigate replace to={`/4/${getRndInteger(1, 65536)}`} />
-                }
-            />
-            <Route path="/:num_games/:seed" element={<App />} />
-        </Routes>
-    </Router>
+    <React.StrictMode>
+        <App />
+        {/* <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <div>
+                            <h1>:( oops</h1>
+                            <App />
+                        </div>
+                    }
+                    // <Navigate replace to={`/4/${getRndInteger(1, 65536)}`} />
+                />
+                <Route path="/:num_games/:seed" element={<App />} />
+            </Routes>
+        </Router> */}
+    </React.StrictMode>
 );
+
+// gameRoot.render(
+//     <React.StrictMode>
+//         <App />
+//     </React.StrictMode>
+// );

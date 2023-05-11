@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from "react";
 
-import Board from './Board'
-import Keyboard from './Keyboard'
-import La from './La'
-import Ta from './Ta'
+import Board from "./Board";
+import Keyboard from "./Keyboard";
+import La from "./La";
+import Ta from "./Ta";
 
 // Function that checks parameters of guess to make sure it is a valid 5 letter word
 function validateAnswer(guess) {
@@ -13,7 +13,9 @@ function validateAnswer(guess) {
     } else if (guess.length !== 5) {
         alert("Not enough letters!");
         return false;
-    } else if (!(Ta.includes(guess.toLowerCase()) || La.includes(guess.toLowerCase()))){
+    } else if (
+        !(Ta.includes(guess.toLowerCase()) || La.includes(guess.toLowerCase()))
+    ) {
         alert("Not a valid word!");
         return false;
     } else {
@@ -26,24 +28,21 @@ function initMap() {
     var m = new Map();
     const abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (let i = 0; i < 26; i++) {
-        m.set(abc[i],  "default");
+        m.set(abc[i], "default");
     }
-    m.set("Del",  "default");
-    m.set("Enter",  "default");
+    m.set("Del", "default");
+    m.set("Enter", "default");
 
     return m;
 }
 
-
 class Game extends Component {
-
     constructor(props) {
         super(props);
         this.rng = new Math.seedrandom(props.rng_seed);
 
         props.timer.reset();
         props.timer.stop();
-        
 
         this.state = {
             rng_seed: props.rng_seed,
@@ -59,14 +58,13 @@ class Game extends Component {
             started: false,
         };
         this.curr_guess = "";
-        this.num_guesses = Math.ceil(parseInt(props.num_games)*1.25) + 3;
-
+        this.num_guesses = Math.ceil(parseInt(props.num_games) * 1.25) + 3;
     }
 
     randomWords(n, func) {
         var ids = [];
-    
-        for (let i = 0; i  < n; i++) {
+
+        for (let i = 0; i < n; i++) {
             var val = func();
             const idx = Math.floor(val * La.length);
             if (ids.indexOf(idx) !== -1) {
@@ -76,10 +74,7 @@ class Game extends Component {
             }
         }
         return ids.map((v) => La[v].toUpperCase());
-    
     }
-
-    
 
     handleAnswer(event) {
         if (!this.state.finished) {
@@ -92,7 +87,7 @@ class Game extends Component {
                 if (validateAnswer(this.state.curr_guess)) {
                     this.setState((prevState) => ({
                         curr_guess: "",
-                        guesses: [...prevState.guesses, prevState.curr_guess], 
+                        guesses: [...prevState.guesses, prevState.curr_guess],
                         curr_guess_idx: prevState.curr_guess_idx + 1,
                     }));
                     this.checkGameStatus(this.state.curr_guess);
@@ -101,7 +96,10 @@ class Game extends Component {
                 this.setState((prevState) => ({
                     curr_guess: prevState.curr_guess.slice(0, -1),
                 }));
-            } else if (this.state.curr_guess.length < 5 && /^[a-zA-Z]$/.test(event.key)) {
+            } else if (
+                this.state.curr_guess.length < 5 &&
+                /^[a-zA-Z]$/.test(event.key)
+            ) {
                 this.setState((prevState) => ({
                     curr_guess: prevState.curr_guess + event.key.toUpperCase(),
                 }));
@@ -111,7 +109,6 @@ class Game extends Component {
 
     // Updates the status of the game upon receiving a valid guess
     checkGameStatus(guess) {
-
         const boards = this.state.boards.slice();
         const idx = this.state.words.indexOf(guess);
         if (idx !== -1) {
@@ -123,7 +120,7 @@ class Game extends Component {
             if (boards.indexOf(false) === -1) {
                 this.finishGame(true);
             }
-        } else if (this.state.curr_guess_idx >= this.num_guesses-1) {
+        } else if (this.state.curr_guess_idx >= this.num_guesses - 1) {
             this.finishGame(false);
             this.setState({
                 boards: Array(parseInt(this.props.num_games)).fill(true),
@@ -131,14 +128,12 @@ class Game extends Component {
         }
     }
 
-
-    finishGame(won){
+    finishGame(won) {
         this.setState({
             finished: true,
             won: won,
         });
     }
-
 
     processLetters(guess, correct, idx) {
         var classes = Array(5).fill("default");
@@ -164,29 +159,35 @@ class Game extends Component {
         }
 
         this.setState((prevState) => ({
-            keyMaps: [...prevState.keyMaps.slice(0, idx), newMap, ...prevState.keyMaps.slice(idx+1)]
+            keyMaps: [
+                ...prevState.keyMaps.slice(0, idx),
+                newMap,
+                ...prevState.keyMaps.slice(idx + 1),
+            ],
         }));
 
         return classes;
     }
 
-
     renderBoard(idx, correct, num_guesses, finished) {
-        return <Board correct={correct} 
-            num_guesses={num_guesses} 
-            listId={idx}
-            key={correct} 
-            guesses={this.state.guesses} 
-            curr={this.state.curr_guess} 
-            g_idx={this.state.curr_guess_idx} 
-            checkFunc={this.processLetters.bind(this)}
-            finished={finished}
-        />;
+        return (
+            <Board
+                correct={correct}
+                num_guesses={num_guesses}
+                listId={idx}
+                key={correct}
+                guesses={this.state.guesses}
+                curr={this.state.curr_guess}
+                g_idx={this.state.curr_guess_idx}
+                checkFunc={this.processLetters.bind(this)}
+                finished={finished}
+            />
+        );
     }
 
     renderKeyboard() {
         return (
-            <Keyboard 
+            <Keyboard
                 keyStatus={this.state.keyMaps}
                 action={this.handleAnswer.bind(this)}
                 num_games={this.props.num_games}
@@ -194,23 +195,29 @@ class Game extends Component {
         );
     }
 
-    
     render() {
-
-        const boards = [...Array(parseInt(this.props.num_games)).keys()].map((idx) => {
-            return this.renderBoard(idx, this.state.words[idx], this.num_guesses, this.state.boards[idx]);
-        }); 
-
-        return (
-            <div className="app" tabIndex="0" key={this.props.rng_seed} onKeyDown={this.handleAnswer.bind(this)}>
-                <div className="boards">
-                    {boards}
-                </div>
-                {this.renderKeyboard()}
-                
-            </div>
+        const boards = [...Array(parseInt(this.props.num_games)).keys()].map(
+            (idx) => {
+                return this.renderBoard(
+                    idx,
+                    this.state.words[idx],
+                    this.num_guesses,
+                    this.state.boards[idx]
+                );
+            }
         );
 
+        return (
+            <div
+                className="app"
+                tabIndex="0"
+                key={this.props.rng_seed}
+                onKeyDown={this.handleAnswer.bind(this)}
+            >
+                <div className="boards">{boards}</div>
+                {this.renderKeyboard()}
+            </div>
+        );
     }
 
     componentDidUpdate() {
@@ -225,11 +232,15 @@ class Game extends Component {
                 started: true,
             });
             this.props.timer.start();
-        } 
+        }
         if (this.state.finished === true) {
             this.props.timer.pause();
             if (this.state.won) {
-                alert(`Nice job! Won in ${this.state.curr_guess_idx}/${this.num_guesses}\nDuration: ${this.props.timer.getTimeValues().toString()}`);
+                alert(
+                    `Nice job! Won in ${this.state.curr_guess_idx}/${
+                        this.num_guesses
+                    }\nDuration: ${this.props.timer.getTimeValues().toString()}`
+                );
             } else {
                 alert("OOPS YOU LOST SUCKA X/" + this.num_guesses);
             }
@@ -238,4 +249,4 @@ class Game extends Component {
     }
 }
 
-export default Game
+export default Game;
