@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ssheldon.github.io/speed-wordle/static/css/main.37e4c17f.css",
+    "main.js": "/ssheldon.github.io/speed-wordle/static/js/main.18537fc9.js",
+    "index.html": "/ssheldon.github.io/speed-wordle/index.html",
+    "main.37e4c17f.css.map": "/ssheldon.github.io/speed-wordle/static/css/main.37e4c17f.css.map",
+    "main.18537fc9.js.map": "/ssheldon.github.io/speed-wordle/static/js/main.18537fc9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.37e4c17f.css",
+    "static/js/main.18537fc9.js"
+  ]
+}
