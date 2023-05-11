@@ -146,13 +146,16 @@ class Game extends Component {
         for (let i = 0; i < correct.length; i++) {
             const guess_c = guess[i];
             const curr_c = correct[i];
-            var status = "default";
+            var status = newMap.get(guess_c);
+
             if (guess_c === curr_c) {
                 classes[i] = "correct";
                 status = "correct";
             } else if (correct.indexOf(guess_c) !== -1) {
                 classes[i] = "close";
-                status = "close";
+                if (status !== "correct") {
+                    status = "close";
+                }
             } else {
                 classes[i] = "unused";
                 status = "unused";
