@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import "./index.css";
-import App from "./App";
+import App from "../src/App";
 
 const gameContainer = document.getElementById("wordle");
 const gameRoot = ReactDOM.createRoot(gameContainer);
